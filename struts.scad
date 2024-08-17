@@ -1,6 +1,6 @@
 include <BOSL2/std.scad>
 include <BOSL2/screws.scad>
-include <hcomb-insert.scad>
+include <hex.scad>
 
 module join(){
 	hull(){
