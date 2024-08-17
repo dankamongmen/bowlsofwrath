@@ -13,7 +13,7 @@ The honeycomb walls are oriented to support external hookups on both sides.
 
 ## How do I use this?
 
-These are (OpenSCAD)[https://openscad.org/] source files. You'll want to
+These are [OpenSCAD](https://openscad.org/) source files. You'll want to
 open them in OpenSCAD, adjust any parameters as needed, render them to
 STL, and open that using the slicer of your choice.
 
