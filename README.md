@@ -25,4 +25,6 @@ STL, and open that using the slicer of your choice.
   support external hookups. That would suggest you can't use these for internal
   struts, but you can, since the bottom one will be held in by gravity.
 * Make unified "wall" placard that covers both halves.
-* Parameterize struts.
+* Parameterize struts
+* Snap-in bolts
+* 3MF project files
