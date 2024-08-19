@@ -157,7 +157,7 @@ difference(){
 		cube([mtotx, mainy - rwallr - wallr -1, mainz - wallr - 19]);
 	}
 	// passageways for bolts (front then back)
-	translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2]){
+	translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
 		rotate([0, 90, 0]){
 			cylinder(mtotx, boltd / 2, boltd / 2);
 			translate([0, -65, 0]){
@@ -165,7 +165,7 @@ difference(){
 			}
 		}
 	}
-	translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2]){
+	translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
 		rotate([0, 90, 0]){
 			cylinder(mtotx, boltd / 2, boltd / 2);
 			translate([0, -65, 0]){
@@ -218,11 +218,11 @@ module tower(){
 			roundedcube([towerd - wallz * 3 + 1, mainy - 2, towerw], false, wallr, "y");
 		}
 		// top hole
-		translate([towerw / 2, mainy - 8 - boltd / 2, -3.4]){
+		translate([towerw / 2, mainy - 8 - boltd / 2, -2.4]){
 			screw_hole("M5", length=towerw, thread=true, orient=LEFT);
 		}
 		// bottom hole
-		translate([towerw / 2, 4.5, -3.4]){
+		translate([towerw / 2, 4.5, -2.4]){
 			screw_hole("M5", length=towerw, thread=true, orient=LEFT);
 		}		
 	}
