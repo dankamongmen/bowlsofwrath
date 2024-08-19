@@ -11,6 +11,8 @@ nozzle ought likewise be fine.
 
 The honeycomb walls are oriented to support external hookups on both sides.
 
+More info is available on [Dankwiki](https://nick-black.com/dankwiki/index.php/Dank%27s_Magnificent_Bowl).
+
 ## How do I use this?
 
 These are [OpenSCAD](https://openscad.org/) source files. You'll want to
