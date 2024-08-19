@@ -19,12 +19,14 @@ STL, and open that using the slicer of your choice.
 
 ## TODO
 
-* Support internal hookups + slits to allow internal struts. At least one row
-  of the Honeycomb walls ought still be oriented to support external items.
-* Restore honeycomb in floor, maybe. If we do so, they ought be oriented to
-  support external hookups. That would suggest you can't use these for internal
-  struts, but you can, since the bottom one will be held in by gravity.
+* Support internal hookups + slits to allow internal struts. Most of the
+  honeycombs ought still be oriented to support external items.
+* Restore honeycomb in floor, but make it optional. Ought be oriented to
+    support external hookups. That would suggest you can't use these for
+    internal struts, but you can: the bottom one will be held in by gravity.
 * Make unified "wall" placard that covers both halves.
-* Parameterize struts
-* Snap-in bolts
-* 3MF project files
+* Adjust existing placards to accommodate internal chamfers.
+* Parameterize struts.
+* Struts that connect horizontally in addition to vertically.
+* Snap-in bolts.
+* 3MF project files.
