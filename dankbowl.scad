@@ -11,9 +11,10 @@ $fa = 6;
 $fs = 1.75 / 2;
 $fn = 16;
 
+// 0.0.991 -- lined up througholes better
+//            added optional honeycomb bottom
+//            moved out holes for 2mm more length
 // 0.0.99 -- external rounding only with "y" to properly hold combs
-//           lined up througholes better
-//           added optional honeycomb bottom
 // 0.0.98 -- properly oriented side honeycomb for external latching
 
 current_color = "ALL";
@@ -176,7 +177,7 @@ difference(){
 	translate([mtotx - 20, 7, mtotz - 10]){
 		rotate([90, 0, 180]){
 			linear_extrude(2){
-				text("v0.0.99 2024-08-19", size=4);
+				text("v0.0.991 2024-08-19", size=4);
 			}
 		}
 	}
