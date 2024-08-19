@@ -7,7 +7,8 @@ depending on taste.
 
 Neither supports nor small layer heights are necessary. A .2mm layer height 
 with a 0.4mm nozzle is more than adequate. A .3mm layer height with a 0.6mm
-nozzle ought likewise be fine.
+nozzle ought likewise be fine. I typically print the struts using
+polycarbonate, and everything else with ABS or ASA.
 
 The honeycomb walls are oriented to support external hookups on both sides.
 
@@ -21,6 +22,9 @@ STL, and open that using the slicer of your choice. You'll need the
 [BOSL2](https://github.com/BelfrySCAD/BOSL2) and
 [roundedcube](https://danielupshaw.com/openscad-rounded-corners/) OpenSCAD
 libraries.
+
+You'll need at least one [Bowl](dankbowl.scad). For each Bowl you want to
+connect, you'll need four [struts](struts.scad).
 
 ## Files
 
