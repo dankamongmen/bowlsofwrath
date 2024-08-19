@@ -22,6 +22,14 @@ STL, and open that using the slicer of your choice. You'll need the
 [roundedcube](https://danielupshaw.com/openscad-rounded-corners/) OpenSCAD
 libraries.
 
+## Files
+
+* [bolts.scad](bolts.scad): bolts for holding in placards on the front/back
+* [dankbowl.scad](dankbowl.scad): the main Bowl
+* [struts.scad](struts.scad): struts for connecting Bowls
+
+**FIXME** add placards/wallpiece
+
 ## TODO
 
 * Support internal hookups + slits to allow internal struts. Most of the
