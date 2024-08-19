@@ -15,7 +15,10 @@ The honeycomb walls are oriented to support external hookups on both sides.
 
 These are [OpenSCAD](https://openscad.org/) source files. You'll want to
 open them in OpenSCAD, adjust any parameters as needed, render them to
-STL, and open that using the slicer of your choice.
+STL, and open that using the slicer of your choice. You'll need the
+[BOSL2](https://github.com/BelfrySCAD/BOSL2) and
+[roundedcube](https://danielupshaw.com/openscad-rounded-corners/) OpenSCAD
+libraries.
 
 ## TODO
 
