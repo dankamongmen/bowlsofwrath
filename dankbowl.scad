@@ -4,6 +4,8 @@ $fa = 6;
 $fs = 1.75 / 2;
 $fn = 16;
 
+// 0.0.99 -- external rounding only with "y" to properly hold combs
+//           lined up througholes better
 // 0.0.98 -- properly oriented side honeycomb for external latching
 
 current_color = "ALL";
@@ -62,7 +64,8 @@ module sidecomb(){
 
 difference(){
 	// the primary bowl
-	roundedcube([mtotx, mtoty, mtotz], false, rwallr);
+	roundedcube([mtotx, mtoty, mtotz], false, rwallr, "y");
+	//cube([mtotx, mtoty, mtotz]);
 	// remove the core, leaving filleted inside
 	translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
 		roundedcube([mainx, mainy, mainz * rwallr], false, wallr, "ymin");
@@ -80,7 +83,7 @@ difference(){
 		rotate([0, 90, 0]){
 			cylinder(mtotx, boltd / 2, boltd / 2);
 			translate([0, -65, 0]){
-				screw_hole("M5", length=mtotx*3, thread=true);
+				screw_hole("M5", length=mtotx*3, thread=false);
 			}
 		}
 	}
@@ -88,28 +91,30 @@ difference(){
 		rotate([0, 90, 0]){
 			cylinder(mtotx, boltd / 2, boltd / 2);
 			translate([0, -65, 0]){
-				screw_hole("M5", length=mtotx*3, thread=true);
+				screw_hole("M5", length=mtotx*3, thread=false);
 			}
 		}
 	}
 	translate([mtotx - 14, 7, mtotz - 20]){
 		rotate([90, 90, 180]){
 			linear_extrude(2){
-				text("v0.0.98 2024-08-17", size=3);
+				text("v0.0.99 2024-08-19", size=4);
 			}
 		}
 	}
 }
 
-// left side
-translate([0, 1, 5]){
-	sidecomb();
-}
-// right side
-translate([totx - 8, 1, wallz]){
-	translate([8, mtoty, 0]){
-		rotate([180, 180, 0]){
-			sidecomb();
+multicolor("green"){
+	// left side
+	translate([0, 1, 5]){
+		sidecomb();
+	}
+	// right side
+	translate([totx - 8, 1, wallz]){
+		translate([8, mtoty, 0]){
+			rotate([180, 180, 0]){
+				sidecomb();
+			}
 		}
 	}
 }
@@ -132,11 +137,11 @@ module tower(){
 			roundedcube([towerd - wallz * 3 + 1, mainy - 2, towerw], false, wallr, "y");
 		}
 		// top hole
-		translate([towerw / 2, mainy - 8 - boltd / 2, -3]){
+		translate([towerw / 2, mainy - 8 - boltd / 2, -3.4]){
 			screw_hole("M5", length=towerw, thread=true, orient=LEFT);
 		}
 		// bottom hole
-		translate([towerw / 2, 4.5, -3]){
+		translate([towerw / 2, 4.5, -3.4]){
 			screw_hole("M5", length=towerw, thread=true, orient=LEFT);
 		}		
 	}
