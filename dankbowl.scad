@@ -1,5 +1,12 @@
 include <dankbowl-constants.scad>
 
+// user configuration begins **********************
+// the bottom can either be 8mm thick, and implement a honeycomb
+//  oriented for insertion from below (set hcombbottom true), or it
+//  can be a solid 4mm (set hcombbottom false).
+hcombbottom = true;
+// user configuration ends ************************
+
 $fa = 6;
 $fs = 1.75 / 2;
 $fn = 16;
@@ -62,6 +69,70 @@ module sidecomb(){
 	}
 }
 
+module bfill(x){
+	polygon([[-33, x],
+				 [-29 + htotx, x],
+				 [-28 + 2 * htotx / 3, x + htotx / 2 + 0.5],
+				 [-35 + htotx / 3, x + htotx / 2 + 0.5]]);
+}
+
+module bottom(){
+	difference(){
+		translate([mainx / 2 + rwallr, 0, mainz / 2 + rwallr - 1]){
+			rotate([0, 90, 0]){
+				rotate([270, 0, 0]){
+					hexwall(7, 9);
+					// fill in front and back
+					for(i = [0:1:4]){
+						translate([-88, 40.8 * i - 81.5, 0]){
+							rotate([0, 0, 90]){
+								linear_extrude(8){
+									circle(14, $fn = 6);
+								}
+							}
+						}
+					}
+					for(i = [0:1:3]){
+						translate([88, 40.8 * i - 61, 0]){
+							rotate([0, 0, 90]){
+								linear_extrude(8){
+									circle(14, $fn = 6);
+								}
+							}
+						}
+					}
+					// fill in left and right
+					for(i = [0:1:7]){
+						translate([23.5 * i - 76, -mainx / 2, 0]){
+							rotate([0, 0, 90]){
+								linear_extrude(8){
+									circle(14, $fn = 6);
+								}
+							}
+						}
+						translate([23.5 * i - 76, mainx / 2, 0]){
+							rotate([0, 0, 90]){
+								linear_extrude(8){
+									circle(14, $fn = 6);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		// remove anything leaking over the sides
+		union(){
+			translate([mtotx, 0, 0]){
+				cube([10, 8, mtotz]);
+			}
+			translate([-10, 0, 0]){
+				cube([10, 8, mtotz]);
+			}
+		}
+	}
+}
+
 difference(){
 	// the primary bowl
 	roundedcube([mtotx, mtoty, mtotz], false, rwallr, "y");
@@ -70,8 +141,13 @@ difference(){
 	translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
 		roundedcube([mainx, mainy, mainz * rwallr], false, wallr, "ymin");
 	}
-	// remove the bottom half of the bottom
-	translate([0, 0, 0]){
+	if(hcombbottom){
+		// remove the bottom
+		translate([rwallr * 2 - 1, 0, towerd + 10]){
+			cube([mtotx - rwallr * 4 + 2, rwallr * 10, mtotz - towerd * 2 - 16]);
+		}
+	}else{
+		// remove the bottom half of the bottom
 		cube([mtotx, rwallr / 2, mtotz]);
 	}
 	// remove the sides to insert the honeycomb
@@ -95,8 +171,8 @@ difference(){
 			}
 		}
 	}
-	translate([mtotx - 14, 7, mtotz - 20]){
-		rotate([90, 90, 180]){
+	translate([mtotx - 20, 7, mtotz - 20]){
+		rotate([90, 0, 180]){
 			linear_extrude(2){
 				text("v0.0.99 2024-08-19", size=4);
 			}
@@ -116,6 +192,9 @@ multicolor("green"){
 				sidecomb();
 			}
 		}
+	}
+	if(hcombbottom){
+		bottom();
 	}
 }
 
