@@ -13,6 +13,7 @@ $fn = 16;
 
 // 0.0.99 -- external rounding only with "y" to properly hold combs
 //           lined up througholes better
+//           added optional honeycomb bottom
 // 0.0.98 -- properly oriented side honeycomb for external latching
 
 current_color = "ALL";
@@ -29,13 +30,14 @@ module lfill(){
 //hexh = 5.77349; // 10**2 + x**2 = 11.547**2
 hexh = 7.5;
 hexy = 26.5;
+lex = 8.1002;
 module sidecomb(){
 	translate([0, mtoty / 2, mtotz / 2 - 3]){
 		rotate([0, 90, 0]){
 			hexwall(8, 3);
 			// fill in the top holes (on the left side, bottom on right)
 			for(i = [0:1:7]){
-				linear_extrude(8){
+				linear_extrude(lex){
 					polygon([[xoffbase + i * htotx, hexy + hexh],
 									 [xoffbase + i * htotx + 11.8, hexy],
 									 [xoffbase + i * htotx + 23.6, hexy + hexh]]);
@@ -44,7 +46,7 @@ module sidecomb(){
 									 [xoffbase + i * htotx + 23.6, -hexy - hexh]]);
 				}
 			}
-			linear_extrude(8){
+			linear_extrude(lex){
 				polygon([[xoffbase + 8 * htotx, 34],
 				         [xoffbase + 8 * htotx + wall + height / 2, 27],
 				         [xoffbase + 8 * htotx + wall + height / 2, 34]]);
@@ -86,7 +88,7 @@ module bottom(){
 					for(i = [0:1:4]){
 						translate([-88, 40.8 * i - 81.5, 0]){
 							rotate([0, 0, 90]){
-								linear_extrude(8){
+								linear_extrude(lex){
 									circle(14, $fn = 6);
 								}
 							}
@@ -95,7 +97,7 @@ module bottom(){
 					for(i = [0:1:3]){
 						translate([88, 40.8 * i - 61, 0]){
 							rotate([0, 0, 90]){
-								linear_extrude(8){
+								linear_extrude(lex){
 									circle(14, $fn = 6);
 								}
 							}
@@ -105,14 +107,14 @@ module bottom(){
 					for(i = [0:1:7]){
 						translate([23.5 * i - 76, -mainx / 2, 0]){
 							rotate([0, 0, 90]){
-								linear_extrude(8){
+								linear_extrude(lex){
 									circle(14, $fn = 6);
 								}
 							}
 						}
 						translate([23.5 * i - 76, mainx / 2, 0]){
 							rotate([0, 0, 90]){
-								linear_extrude(8){
+								linear_extrude(lex){
 									circle(14, $fn = 6);
 								}
 							}
@@ -124,10 +126,10 @@ module bottom(){
 		// remove anything leaking over the sides
 		union(){
 			translate([mtotx, 0, 0]){
-				cube([10, 8, mtotz]);
+				cube([10, lex, mtotz]);
 			}
 			translate([-10, 0, 0]){
-				cube([10, 8, mtotz]);
+				cube([10, lex, mtotz]);
 			}
 		}
 	}
@@ -171,7 +173,7 @@ difference(){
 			}
 		}
 	}
-	translate([mtotx - 20, 7, mtotz - 20]){
+	translate([mtotx - 20, 7, mtotz - 10]){
 		rotate([90, 0, 180]){
 			linear_extrude(2){
 				text("v0.0.99 2024-08-19", size=4);
