@@ -31,6 +31,8 @@ libraries.
     internal struts, but you can: the bottom one will be held in by gravity.
 * Make unified "wall" placard that covers both halves.
 * Adjust existing placards to accommodate internal chamfers.
+* New placard for 30256 label.
+* New placard for--you guessed it--honeycomb.
 * Parameterize struts.
 * Struts that connect horizontally in addition to vertically.
 * Snap-in bolts.
