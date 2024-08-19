@@ -19,8 +19,6 @@ $fn = 16;
 
 current_color = "ALL";
 
-htotx = height + 2 * wall - 0.05; // FIXME eliminate
-xoffbase = -100.2; // FIXME eliminate
 module lfill(){
 	polygon([[xoffbase, -33],
 				 [xoffbase, -29 + htotx],
@@ -32,6 +30,9 @@ module lfill(){
 hexh = 7.5;
 hexy = 26.5;
 lex = 8.1002;
+htotx = height + 2 * wall - 0.05; // FIXME eliminate
+xoffbase = -100.2; // FIXME eliminate
+
 module sidecomb(){
 	translate([0, mtoty / 2, mtotz / 2 - 3]){
 		rotate([0, 90, 0]){
@@ -49,11 +50,11 @@ module sidecomb(){
 			}
 			linear_extrude(lex){
 				polygon([[xoffbase + 8 * htotx, 34],
-				         [xoffbase + 8 * htotx + wall + height / 2, 27],
-				         [xoffbase + 8 * htotx + wall + height / 2, 34]]);
+								 [xoffbase + 8 * htotx + wall + height / 2, 27],
+								 [xoffbase + 8 * htotx + wall + height / 2, 34]]);
 				polygon([[xoffbase + 8 * htotx, -34],
-				         [xoffbase + 8 * htotx + wall + height / 2, -27],
-				         [xoffbase + 8 * htotx + wall + height / 2, -34]]);
+								 [xoffbase + 8 * htotx + wall + height / 2, -27],
+								 [xoffbase + 8 * htotx + wall + height / 2, -34]]);
 				// fill in the front holes on both sides
 				translate([0, -1, 0]){
 					lfill();
@@ -136,71 +137,6 @@ module bottom(){
 	}
 }
 
-difference(){
-	// the primary bowl
-	roundedcube([mtotx, mtoty, mtotz], false, rwallr, "y");
-	//cube([mtotx, mtoty, mtotz]);
-	// remove the core, leaving filleted inside
-	translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
-		roundedcube([mainx, mainy, mainz * rwallr], false, wallr, "ymin");
-	}
-	if(hcombbottom){
-		// remove the bottom
-		translate([rwallr * 2 - 1, 0, towerd + 10]){
-			cube([mtotx - rwallr * 4 + 2, rwallr * 10, mtotz - towerd * 2 - 16]);
-		}
-	}else{
-		// remove the bottom half of the bottom
-		cube([mtotx, rwallr / 2, mtotz]);
-	}
-	// remove the sides to insert the honeycomb
-	translate([0, rwallr + wallr, rwallr + wallr + 5]){
-		cube([mtotx, mainy - rwallr - wallr -1, mainz - wallr - 19]);
-	}
-	// passageways for bolts (front then back)
-	translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
-		rotate([0, 90, 0]){
-			cylinder(mtotx, boltd / 2, boltd / 2);
-			translate([0, -65, 0]){
-				screw_hole("M5", length=mtotx*3, thread=false);
-			}
-		}
-	}
-	translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
-		rotate([0, 90, 0]){
-			cylinder(mtotx, boltd / 2, boltd / 2);
-			translate([0, -65, 0]){
-				screw_hole("M5", length=mtotx*3, thread=false);
-			}
-		}
-	}
-	translate([mtotx - 20, 7, mtotz - 10]){
-		rotate([90, 0, 180]){
-			linear_extrude(2){
-				text("v0.0.991 2024-08-19", size=4);
-			}
-		}
-	}
-}
-
-multicolor("green"){
-	// left side
-	translate([0, 1, 5]){
-		sidecomb();
-	}
-	// right side
-	translate([totx - 8, 1, wallz]){
-		translate([8, mtoty, 0]){
-			rotate([180, 180, 0]){
-				sidecomb();
-			}
-		}
-	}
-	if(hcombbottom){
-		bottom();
-	}
-}
-
 module tower(){
 	// tower in front/back centers for bolts
 	// we have about 20mm of gap between the two boxes
@@ -229,44 +165,112 @@ module tower(){
 	}
 }
 
-multicolor("blue"){
-	// tower in the front
-	translate([mtotx / 2 - towerw / 2, 8, mtotz - wallr + 1]){
-		tower();
-	}
-	// tower in the back (aligned to x axis)
-	translate([mtotx / 2 - towerw / 2, 8, wallr - 1]){
-		mirror([0, 0, 1]){
-			tower();
+// rotate the entirety to sit on the plate naturally
+rotate([90, 0, 0]){
+	difference(){
+		// the primary bowl
+		roundedcube([mtotx, mtoty, mtotz], false, rwallr, "y");
+		//cube([mtotx, mtoty, mtotz]);
+		// remove the core, leaving filleted inside
+		translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
+			roundedcube([mainx, mainy, mainz * rwallr], false, wallr, "ymin");
 		}
-	}
-} // blue
-
-// for testing
-/*multicolor("red"){
-	translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2]){
-		rotate([0, 90, 0]){
-			cylinder(mtotx, boltd / 2, boltd / 2);
-			translate([0, -65, 0]){
-				cylinder(mtotx, boltd / 2, boltd / 2);
+		if(hcombbottom){
+			// remove the bottom
+			translate([rwallr * 2 - 1, 0, towerd + 10]){
+				cube([mtotx - rwallr * 4 + 2, rwallr * 10, mtotz - towerd * 2 - 16]);
 			}
+		}else{
+			// remove the bottom half of the bottom
+			cube([mtotx, rwallr / 2, mtotz]);
 		}
-	}
-	translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2]){
-		rotate([0, 90, 0]){
-			cylinder(mtotx, boltd / 2, boltd / 2);
-			translate([0, -65, 0]){
-				cylinder(mtotx, boltd / 2, boltd / 2);
-			}
+		// remove the sides to insert the honeycomb
+		translate([0, rwallr + wallr, rwallr + wallr + 5]){
+			cube([mtotx, mainy - rwallr - wallr -1, mainz - wallr - 19]);
 		}
-	}
-	translate([0, 24.6, 29.6]){
-		rotate([30, 0, 0]){
+		// passageways for bolts (front then back)
+		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
 			rotate([0, 90, 0]){
-				linear_extrude(mtotx){
-					circle(13.6, $fn=6);
+				cylinder(mtotx, boltd / 2, boltd / 2);
+				translate([0, -65, 0]){
+					screw_hole("M5", length=mtotx*3, thread=false);
+				}
+			}
+		}
+		translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
+			rotate([0, 90, 0]){
+				cylinder(mtotx, boltd / 2, boltd / 2);
+				translate([0, -65, 0]){
+					screw_hole("M5", length=mtotx*3, thread=false);
+				}
+			}
+		}
+		translate([mtotx - 20, 7, mtotz - 10]){
+			rotate([90, 0, 180]){
+				linear_extrude(2){
+					text("v0.0.991 2024-08-19", size=4);
 				}
 			}
 		}
 	}
-}*/
+
+	multicolor("green"){
+		// left side
+		translate([0, 1, 5]){
+			sidecomb();
+		}
+		// right side
+		translate([totx - 8, 1, wallz]){
+			translate([8, mtoty, 0]){
+				rotate([180, 180, 0]){
+					sidecomb();
+				}
+			}
+		}
+		if(hcombbottom){
+			bottom();
+		}
+	}
+
+	multicolor("blue"){
+		// tower in the front
+		translate([mtotx / 2 - towerw / 2, 8, mtotz - wallr + 1]){
+			tower();
+		}
+		// tower in the back (aligned to x axis)
+		translate([mtotx / 2 - towerw / 2, 8, wallr - 1]){
+			mirror([0, 0, 1]){
+				tower();
+			}
+		}
+	} // blue
+
+	// for testing
+	/*multicolor("red"){
+		translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2]){
+			rotate([0, 90, 0]){
+				cylinder(mtotx, boltd / 2, boltd / 2);
+				translate([0, -65, 0]){
+					cylinder(mtotx, boltd / 2, boltd / 2);
+				}
+			}
+		}
+		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2]){
+			rotate([0, 90, 0]){
+				cylinder(mtotx, boltd / 2, boltd / 2);
+				translate([0, -65, 0]){
+					cylinder(mtotx, boltd / 2, boltd / 2);
+				}
+			}
+		}
+		translate([0, 24.6, 29.6]){
+			rotate([30, 0, 0]){
+				rotate([0, 90, 0]){
+					linear_extrude(mtotx){
+						circle(13.6, $fn=6);
+					}
+				}
+			}
+		}
+	}*/
+}
