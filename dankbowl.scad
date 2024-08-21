@@ -187,7 +187,7 @@ rotate([90, 0, 0]){
 		}
 		// remove the sides to insert the honeycomb
 		translate([0, rwallr + wallr, rwallr + wallr + 5]){
-			cube([mtotx, mainy - rwallr - wallr -1, mainz - wallr - 19]);
+			cube([mtotx, mainy - rwallr - 2, mainz - wallr - 19]);
 		}
 		// passageways for bolts (front then back)
 		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
@@ -220,6 +220,9 @@ rotate([90, 0, 0]){
 		translate([0, -1, 5]){
 			sidecomb();
 		}
+	}
+	
+	multicolor("pink"){
 		// right side
 		translate([totx - 8, 7, wallz]){
 			translate([8, mtoty, 0]){
@@ -228,6 +231,9 @@ rotate([90, 0, 0]){
 				}
 			}
 		}
+	}
+	
+	multicolor("white"){
 		if(hcombbottom){
 			bottom();
 		}
