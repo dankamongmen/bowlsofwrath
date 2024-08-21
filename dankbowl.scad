@@ -1,4 +1,5 @@
 include <dankbowl-constants.scad>
+include <fpanel.scad>
 
 $fa = 6;
 //$fs = 1.75 / 2;
@@ -260,7 +261,7 @@ module tower(){
 					cylinder(mtotx, boltd / 2, boltd / 2);
 				}
 			}
-		}*/
+		}
 		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
 			rotate([0, 90, 0]){
 				cylinder(mtotx, boltd / 2, boltd / 2);
@@ -278,13 +279,10 @@ module tower(){
 				}
 			}
 		}
+		rotate([0, 0, 0]){
+			translate([rwallr, rwallr, 7]){
+				fpanel("erp");
+			}
+		}*/
 	}
-	rotate([0, 0, 0]){
-		translate([rwallr, rwallr, 7]){
-			fpanel("erp");
-		}
-	}
-
 }
-
-include <fpanel.scad>

@@ -37,7 +37,7 @@ module drawtext(filtype){
 	translate([1, 14, 90]){
 		coretext(filtype);
 	}
-	translate([-1, 14, 57]){
+	translate([-1, 14, 55]){
 		rotate([0, 180, 0]){
 			coretext(filtype);
 		}
@@ -51,21 +51,22 @@ module fpanel(filtype){
 				union(){
 					// main panel cube
 					translate([-fpanelz / 2, 0, 0]){
-						cube([fpanelz, fpanely - clampr - 5.5, fpanelx]);
+						//cube([fpanelz, fpanely - clampr - 5.5, fpanelx]);
+						roundedcube([fpanelz, fpanely - clampr - 5.5, fpanelx], false, 3);
 					}
 					// decorative rounding at the top
-					translate([0, fpanely - 8, 0]){
+					translate([0, fpanely - 10, 0]){
 						cylinder(fpanelx, 4, 4);
 					}	
 				}
 				union(){
 					viewport();
 					// top cylinder interior
-					translate([0.5, fpanely - 10, 0]){
+					translate([0, fpanely - 10, 0]){
 						screw_hole("M5", length = 200, thread=false);
 					}
 					// bottom cylinder interior
-					translate([0.5, 5, 0]){
+					translate([0, 5, 0]){
 						screw_hole("M5", length = 200, thread=false);
 					}
 					// through-hexagon into which a swatch can be inserted
