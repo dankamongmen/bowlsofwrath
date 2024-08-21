@@ -12,6 +12,7 @@ $fs = 1.75 / 2;
 $fn = 16;
 
 // 0.0.992 -- reduced height by 4mm
+//            fixed up some minor manifold faults
 // 0.0.991 -- lined up througholes better
 //            added optional honeycomb bottom
 //            moved out holes for 2mm more length
@@ -20,11 +21,18 @@ $fn = 16;
 
 current_color = "ALL";
 
-module lfill(){
-	polygon([[xoffbase, -33],
+module lfill(xoffbase){
+	polygon([[xoffbase, -33.5],
 				 [xoffbase, -29 + htotx],
 				 [xoffbase + htotx / 2 + 0.5, -28 + 2 * htotx / 3],
 				 [xoffbase + htotx / 2 + 0.5, -35 + htotx / 3]]);
+}
+
+module bfill(x){
+	polygon([[-33, x],
+				 [-29 + htotx, x],
+				 [-28 + 2 * htotx / 3, x + htotx / 2 + 0.5],
+				 [-35 + htotx / 3, x + htotx / 2 + 0.5]]);
 }
 
 //hexh = 5.77349; // 10**2 + x**2 = 11.547**2
@@ -32,9 +40,9 @@ hexh = 7.5;
 hexy = 26.5;
 lex = 8.1002;
 htotx = height + 2 * wall - 0.05; // FIXME eliminate
-xoffbase = -100.2; // FIXME eliminate
 
 module sidecomb(){
+	xoffbase = -100.2; // FIXME eliminate
 	translate([0, mtoty / 2 + 4, mtotz / 2 - 3]){
 		rotate([0, 90, 0]){
 			hexwall(8, 3);
@@ -58,27 +66,20 @@ module sidecomb(){
 								 [xoffbase + 8 * htotx + wall + height / 2, -34]]);
 				// fill in the front holes on both sides
 				translate([0, -1, 0]){
-					lfill();
+					lfill(xoffbase);
 				}
 				translate([0, height * 2, 0]){
-					lfill();
+					lfill(xoffbase);
 				}
 				// fill in the back hole on both sides
-				translate([0, height - 1, 0]){
+				translate([0, height - 0.75, 0]){
 					mirror([1, 0, 0]){
-						lfill();
+						lfill(xoffbase);
 					}
 				}
 			}
 		}
 	}
-}
-
-module bfill(x){
-	polygon([[-33, x],
-				 [-29 + htotx, x],
-				 [-28 + 2 * htotx / 3, x + htotx / 2 + 0.5],
-				 [-35 + htotx / 3, x + htotx / 2 + 0.5]]);
 }
 
 module bottom(){
@@ -209,7 +210,7 @@ rotate([90, 0, 0]){
 		translate([mtotx - 20, 7, mtotz - 10]){
 			rotate([90, 0, 180]){
 				linear_extrude(2){
-					text("v0.0.991 2024-08-19", size=4);
+					text("v0.0.992 2024-08-20", size=4);
 				}
 			}
 		}
