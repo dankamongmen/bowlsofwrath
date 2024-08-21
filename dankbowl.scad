@@ -1,7 +1,7 @@
 include <dankbowl-constants.scad>
 
 $fa = 6;
-$fs = 1.75 / 2;
+//$fs = 1.75 / 2;
 $fn = 16;
 
 // 0.0.992 -- reduced height by 4mm
@@ -236,10 +236,7 @@ module tower(){
 	translate([lex, rwallr, -rwallr]){
 		roundedcube([mtotx - lex * 2, mainy, mtotz + rwallr * 2], false, wallr, "ymin");
 		}
-
 	}	
-
-multicolor("red"){}
 
 	multicolor("blue"){
 		// tower in the front
@@ -255,15 +252,15 @@ multicolor("red"){}
 	} // blue
 
 	// for testing
-	/*zmulticolor("red"){
-		translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
+	multicolor("red"){
+		/*translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
 			rotate([0, 90, 0]){
 				cylinder(mtotx, boltd / 2, boltd / 2);
 				translate([0, -61, 0]){
 					cylinder(mtotx, boltd / 2, boltd / 2);
 				}
 			}
-		}
+		}*/
 		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
 			rotate([0, 90, 0]){
 				cylinder(mtotx, boltd / 2, boltd / 2);
@@ -281,5 +278,13 @@ multicolor("red"){}
 				}
 			}
 		}
-	}*/
+	}
+	rotate([0, 0, 0]){
+		translate([rwallr, rwallr, 7]){
+			fpanel("erp");
+		}
+	}
+
 }
+
+include <fpanel.scad>

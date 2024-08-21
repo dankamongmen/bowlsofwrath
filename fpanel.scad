@@ -24,6 +24,26 @@ module viewport(){
 	}
 }
 
+module coretext(ftype){
+	lex = fpanelz / 2 - 1; // don't let them meet in the middle
+	rotate([0, 90, 0]){
+		linear_extrude(lex){
+			text(ftype, font="Prosto One");
+		}
+	}
+}
+
+module drawtext(filtype){
+	translate([1, 14, 90]){
+		coretext(filtype);
+	}
+	translate([-1, 14, 57]){
+		rotate([0, 180, 0]){
+			coretext(filtype);
+		}
+	}
+}
+
 module fpanel(filtype){
 	rotate([0, 90, 0]){
 		multicolor("black"){
@@ -33,60 +53,36 @@ module fpanel(filtype){
 					translate([-fpanelz / 2, 0, 0]){
 						cube([fpanelz, fpanely - clampr - 5.5, fpanelx]);
 					}
-					// we need a cylinder at the top through which our m5 bolt can go
-					// FIXME we should use screw_hole() for this, not cylinder
+					// decorative rounding at the top
 					translate([0, fpanely - 8, 0]){
-						difference(){
-							cylinder(fpanelx, 4, 4);
-						}
+						cylinder(fpanelx, 4, 4);
 					}	
 				}
 				union(){
-					// we have the top 180 degrees of the clamp
-					translate([clampr, 0, 0]){
-						cylinder(fpanelx, clampr, clampr);
-					}
 					viewport();
 					// top cylinder interior
-					translate([0, fpanely - 12, 0]){
-						screw_hole("M5", length = 200);
+					translate([0.5, fpanely - 10, 0]){
+						screw_hole("M5", length = 200, thread=false);
 					}
+					// bottom cylinder interior
+					translate([0.5, 5, 0]){
+						screw_hole("M5", length = 200, thread=false);
+					}
+					// through-hexagon into which a swatch can be inserted
 					translate([-4, 20, 14]){
 						rotate([30, 0, 0])
 						rotate([0, 90, 0]){
-							linear_extrude(8){
+							linear_extrude(fpanelz){
 								circle(10, $fn=6);
 							}
 						}
 					}
-					translate([0, 14, 90]){
-						rotate([0, 90, 0]){
-							linear_extrude(4){
-								text(filtype, font="Prosto One");
-							}
-						}
-					}
-					// reverse text FIXME
+					drawtext(filtype);
 				}
 			}
 		}
 		multicolor("white"){
-			translate([0, 14, 90]){
-				rotate([0, 90, 0]){
-					linear_extrude(4){
-						text(filtype, font="Prosto One");
-					}
-				}
-			}
-			translate([0, 14, 57]){
-				rotate([0, 180, 0]){
-					rotate([0, 90, 0]){
-						linear_extrude(4){
-							text(filtype, font="Prosto One");
-						}
-					}
-				}
-			}
+			drawtext(filtype);
 		}
 	}
 }
