@@ -1,21 +1,19 @@
+include <BOSL2/std.scad>
+include <BOSL2/screws.scad>
+include <dankbowl-constants.scad>
 // bolts for the front/back of the Bowls
 
-translate([0, 0, 2]){
-	rotate([90, 0, 0]){
-		translate([10, 0, 2.5]){
-			screw("m4", length=110);
-			translate([40, 0, 0]){
-				screw("m4", length=110, thread=0);
-			}
-		}
-		translate([60, 0, 0]){
-			screw("M4", length=220, thread=0);
-		}
+singlew = mtotx / 2;
+doublew = mtotx;
+
+rotate([90, 0, 0]){
+	translate([10, 0, 0]){
+		screw("M4", length=singlew, thread_len=towerw / 2);
 	}
-}
-
-nut("M4");
-
-translate([0, 10, 0]){
-	nut("M4");
+	translate([20, 0, 0]){
+		screw("M4", length=singlew, thread=0);
+	}
+	translate([30, 0, 0]){
+		screw("M4", length=doublew, thread=0);
+	}
 }
