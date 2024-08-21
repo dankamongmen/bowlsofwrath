@@ -2,7 +2,7 @@
 
 COMMON:=$(addsuffix .scad, dankbowl-constants hex)
 
-STL:=$(addsuffix .stl,struts dankbowl)
+STL:=$(addsuffix .stl, bolts dankbowl struts)
 
 all: $(STL)
 
