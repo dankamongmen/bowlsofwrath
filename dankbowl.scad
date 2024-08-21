@@ -1,18 +1,12 @@
 include <dankbowl-constants.scad>
 
-// user configuration begins **********************
-// the bottom can either be 8mm thick, and implement a honeycomb
-//  oriented for insertion from below (set hcombbottom true), or it
-//  can be a solid 4mm (set hcombbottom false).
-hcombbottom = true;
-// user configuration ends ************************
-
 $fa = 6;
 $fs = 1.75 / 2;
 $fn = 16;
 
 // 0.0.992 -- reduced height by 4mm
 //            fixed up some minor manifold faults
+//            honeycomb bottom is mandatory
 // 0.0.991 -- lined up througholes better
 //            added optional honeycomb bottom
 //            moved out holes for 2mm more length
@@ -140,105 +134,112 @@ module bottom(){
 }
 
 module tower(){
-	// tower in front/back centers for bolts
-	// we have about 20mm of gap between the two boxes
-	difference(){
-		rotate([0, 90, 0]){
-			// triangle support for tower
-			translate([0, 0, wallr]){
-				linear_extrude(towerw - wallr * 2){
-						polygon([
-							[towerd / 2, 0],
-							[towerd / 2, mainy - 2],
-							[towerd, 0]
-						]);
+		// tower in front/back centers for bolts
+		// we have about 20mm of gap between the two boxes
+		difference(){
+			rotate([0, 90, 0]){
+				// triangle support for tower
+				translate([0, 0, wallr]){
+					linear_extrude(towerw - wallr * 2){
+							polygon([
+								[towerd / 2, 0],
+								[towerd / 2, mainy - 2],
+								[towerd, 0]
+							]);
+					}
 				}
+				roundedcube([towerd - wallz * 3 + 1, mainy - 2, towerw], false, wallr, "y");
 			}
-			roundedcube([towerd - wallz * 3 + 1, mainy - 2, towerw], false, wallr, "y");
+			// top hole
+			translate([towerw / 2, mainy - 8 - boltd / 2, -2.4]){
+				screw_hole("M5", length=towerw, thread=true, orient=LEFT);
+			}
+			// bottom hole
+			translate([towerw / 2, 4.5, -2.4]){
+				screw_hole("M5", length=towerw, thread=true, orient=LEFT);
+			}		
 		}
-		// top hole
-		translate([towerw / 2, mainy - 8 - boltd / 2, -2.4]){
-			screw_hole("M5", length=towerw, thread=true, orient=LEFT);
-		}
-		// bottom hole
-		translate([towerw / 2, 4.5, -2.4]){
-			screw_hole("M5", length=towerw, thread=true, orient=LEFT);
-		}		
 	}
-}
 
-// rotate the entirety to sit on the plate naturally
-rotate([90, 0, 0]){
-	difference(){
-		// the primary bowl
-		roundedcube([mtotx, mtoty, mtotz], false, rwallr, "y");
-		//cube([mtotx, mtoty, mtotz]);
-		// remove the core, leaving filleted inside
-		translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
-			roundedcube([mainx, mainy, mainz * rwallr], false, wallr, "ymin");
-		}
-		if(hcombbottom){
+	// rotate the entirety to sit on the plate naturally
+	rotate([90, 0, 0]){
+		difference(){
+		union(){
+	
+		difference(){
+			// the primary bowl
+			roundedcube([mtotx, mtoty, mtotz], false, rwallr, "y");
+			//cube([mtotx, mtoty, mtotz]);
+			// remove the core, leaving filleted inside
+			translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
+				roundedcube([mainx, mainy, mtotz + rwallr * 2], false, wallr, "ymin");
+			}
 			// remove the bottom
 			translate([rwallr * 2 - 1, 0, towerd + 10]){
 				cube([mtotx - rwallr * 4 + 2, rwallr * 10, mtotz - towerd * 2 - 16]);
 			}
-		}else{
-			// remove the bottom half of the bottom
-			cube([mtotx, rwallr / 2, mtotz]);
-		}
-		// remove the sides to insert the honeycomb
-		translate([0, rwallr + wallr, rwallr + wallr + 5]){
-			cube([mtotx, mainy - rwallr - 2, mainz - wallr - 19]);
-		}
-		// passageways for bolts (front then back)
-		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
-			rotate([0, 90, 0]){
-				cylinder(mtotx, boltd / 2, boltd / 2);
-				translate([0, -61, 0]){
-					screw_hole("M5", length=mtotx*3, thread=false);
+			// remove the sides to insert the honeycomb
+			translate([0, rwallr + wallr, rwallr + wallr + 5]){
+				cube([mtotx, mainy - rwallr - 2, mainz - wallr - 19]);
+			}
+			// passageways for bolts (front then back)
+			translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
+				rotate([0, 90, 0]){
+					cylinder(mtotx, boltd / 2, boltd / 2);
+					translate([0, -61, 0]){
+						screw_hole("M5", length=mtotx*3, thread=false);
+					}
+				}
+			}
+			translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
+				rotate([0, 90, 0]){
+					cylinder(mtotx, boltd / 2, boltd / 2);
+					translate([0, -61, 0]){
+						screw_hole("M5", length=mtotx*3, thread=false);
+					}
+				}
+			}
+			translate([mtotx - 20, 7, mtotz - 10]){
+				rotate([90, 0, 180]){
+					linear_extrude(2){
+						text("v0.0.992 2024-08-20", size=4);
+					}
 				}
 			}
 		}
-		translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
-			rotate([0, 90, 0]){
-				cylinder(mtotx, boltd / 2, boltd / 2);
-				translate([0, -61, 0]){
-					screw_hole("M5", length=mtotx*3, thread=false);
-				}
-			}
-		}
-		translate([mtotx - 20, 7, mtotz - 10]){
-			rotate([90, 0, 180]){
-				linear_extrude(2){
-					text("v0.0.992 2024-08-20", size=4);
-				}
-			}
-		}
-	}
 
-	multicolor("green"){
-		// left side
-		translate([0, -1, 5]){
-			sidecomb();
+		multicolor("green"){
+			// left side
+			translate([0, -1, 5]){
+				sidecomb();
+			}
 		}
-	}
-	
-	multicolor("pink"){
-		// right side
-		translate([totx - 8, 7, wallz]){
-			translate([8, mtoty, 0]){
-				rotate([180, 180, 0]){
-					sidecomb();
+		
+		multicolor("pink"){
+			// right side
+			translate([totx - 8, 7, wallz]){
+				translate([8, mtoty, 0]){
+					rotate([180, 180, 0]){
+						sidecomb();
+					}
 				}
 			}
 		}
-	}
-	
-	multicolor("white"){
-		if(hcombbottom){
+		
+		multicolor("white"){
 			bottom();
 		}
 	}
+	
+	// we cut out the core *again* to smooth out the bottom+sides
+	// FIXME not yet working for sides, though
+	translate([lex, rwallr, -rwallr]){
+		roundedcube([mtotx - lex * 2, mainy, mtotz + rwallr * 2], false, wallr, "ymin");
+		}
+
+	}	
+
+multicolor("red"){}
 
 	multicolor("blue"){
 		// tower in the front
