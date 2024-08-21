@@ -11,6 +11,7 @@ $fa = 6;
 $fs = 1.75 / 2;
 $fn = 16;
 
+// 0.0.992 -- reduced height by 4mm
 // 0.0.991 -- lined up througholes better
 //            added optional honeycomb bottom
 //            moved out holes for 2mm more length
@@ -34,7 +35,7 @@ htotx = height + 2 * wall - 0.05; // FIXME eliminate
 xoffbase = -100.2; // FIXME eliminate
 
 module sidecomb(){
-	translate([0, mtoty / 2, mtotz / 2 - 3]){
+	translate([0, mtoty / 2 + 4, mtotz / 2 - 3]){
 		rotate([0, 90, 0]){
 			hexwall(8, 3);
 			// fill in the top holes (on the left side, bottom on right)
@@ -192,7 +193,7 @@ rotate([90, 0, 0]){
 		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
 			rotate([0, 90, 0]){
 				cylinder(mtotx, boltd / 2, boltd / 2);
-				translate([0, -65, 0]){
+				translate([0, -61, 0]){
 					screw_hole("M5", length=mtotx*3, thread=false);
 				}
 			}
@@ -200,7 +201,7 @@ rotate([90, 0, 0]){
 		translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
 			rotate([0, 90, 0]){
 				cylinder(mtotx, boltd / 2, boltd / 2);
-				translate([0, -65, 0]){
+				translate([0, -61, 0]){
 					screw_hole("M5", length=mtotx*3, thread=false);
 				}
 			}
@@ -216,11 +217,11 @@ rotate([90, 0, 0]){
 
 	multicolor("green"){
 		// left side
-		translate([0, 1, 5]){
+		translate([0, -1, 5]){
 			sidecomb();
 		}
 		// right side
-		translate([totx - 8, 1, wallz]){
+		translate([totx - 8, 7, wallz]){
 			translate([8, mtoty, 0]){
 				rotate([180, 180, 0]){
 					sidecomb();
@@ -246,19 +247,19 @@ rotate([90, 0, 0]){
 	} // blue
 
 	// for testing
-	/*multicolor("red"){
-		translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2]){
+	multicolor("red"){
+		translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
 			rotate([0, 90, 0]){
 				cylinder(mtotx, boltd / 2, boltd / 2);
-				translate([0, -65, 0]){
+				translate([0, -61, 0]){
 					cylinder(mtotx, boltd / 2, boltd / 2);
 				}
 			}
 		}
-		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2]){
+		translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
 			rotate([0, 90, 0]){
 				cylinder(mtotx, boltd / 2, boltd / 2);
-				translate([0, -65, 0]){
+				translate([0, -61, 0]){
 					cylinder(mtotx, boltd / 2, boltd / 2);
 				}
 			}
@@ -272,5 +273,5 @@ rotate([90, 0, 0]){
 				}
 			}
 		}
-	}*/
+	}
 }
