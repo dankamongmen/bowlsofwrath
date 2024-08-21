@@ -247,7 +247,7 @@ rotate([90, 0, 0]){
 	} // blue
 
 	// for testing
-	multicolor("red"){
+	/*zmulticolor("red"){
 		translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
 			rotate([0, 90, 0]){
 				cylinder(mtotx, boltd / 2, boltd / 2);
@@ -273,5 +273,5 @@ rotate([90, 0, 0]){
 				}
 			}
 		}
-	}
+	}*/
 }
