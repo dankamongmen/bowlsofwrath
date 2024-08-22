@@ -5,19 +5,20 @@ include <dankbowl-constants.scad>
 
 singlew = mtotx / 2;
 doublew = mtotx;
-
-rotate([90, 0, 0]){
-	translate([10, 0, 0]){
-		screw("M4", length=singlew, thread_len=towerw / 2);
-	}
-	translate([20, 0, 0]){
-		screw("M4", length=singlew, thread=0);
-	}
-	translate([30, 0, 0]){
-		screw("M4", length=doublew, thread=0);
-	}
+translate([0, 0, 2]){
+    rotate([90, 0, 0]){
+        translate([10, 0, 0]){
+            screw("M4", length=singlew, thread_len=towerw / 2);
+        }
+        translate([20, 0, 0]){
+            screw("M4", length=singlew, thread=0);
+        }
+        translate([30, 0, 0]){
+            screw("M4", length=doublew, thread=0);
+        }
+    }
 }
-
+translate([0, 0, 2.5]){
 rotate([90, 0, 0]){
 	screw("M5", length=singlew, thread_len=towerw / 2);
 	translate([-10, 0, 0]){
@@ -26,4 +27,5 @@ rotate([90, 0, 0]){
 	translate([-20, 0, 0]){
 		screw("M5", length=doublew, thread=0);
 	}
+}
 }
