@@ -25,7 +25,7 @@ module viewport(){
 }
 
 module coretext(ftype){
-	lex = fpanelz / 2 - 1; // don't let them meet in the middle
+	lex = fpanelz / 2 - 4 - 1; // don't let them meet in the middle
 	rotate([0, 90, 0]){
 		linear_extrude(lex){
 			text(ftype, font="Prosto One");
@@ -48,38 +48,34 @@ module fpanel(filtype){
 	rotate([0, 90, 0]){
 		multicolor("black"){
 			difference(){
-				union(){
-					// main panel cube
-					translate([-fpanelz / 2, 0, 0]){
-						//cube([fpanelz, fpanely - clampr - 5.5, fpanelx]);
-						roundedcube([fpanelz, fpanely - clampr - 5.5, fpanelx], false, 3);
-					}
-					// decorative rounding at the top
-					translate([0, fpanely - 10, 0]){
-						cylinder(fpanelx, 4, 4);
-					}	
+				// main panel cube
+				roundedcube([0, fpanely, fpanelx], false, rwallr, "ymin");
+				// chop off the front and back
+				translate([fpanelz / 2 - 4, 0, 0]){
+					cube([fpanelz, 100, 100]);
 				}
-				union(){
-					viewport();
-					// top cylinder interior
-					translate([0, fpanely - 10, 0]){
-						screw_hole("M5", length = 200, thread=false);
-					}
-					// bottom cylinder interior
-					translate([0, 5, 0]){
-						screw_hole("M5", length = 200, thread=false);
-					}
-					// through-hexagon into which a swatch can be inserted
-					translate([-4, 20, 14]){
-						rotate([30, 0, 0])
-						rotate([0, 90, 0]){
-							linear_extrude(fpanelz){
-								circle(10, $fn=6);
-							}
+				translate([-rwallr - fpanelz / 2, 0, 0]){
+					cube([rwallr + 4, 100, 100]);
+				}
+				viewport();
+				// top cylinder interior
+				translate([0, fpanely - 7.4, 0]){
+					screw_hole("M5", length = 200, thread=false);
+				}
+				// bottom cylinder interior
+				translate([0, 5, 0]){
+					screw_hole("M5", length = 200, thread=false);
+				}
+				// through-hexagon into which a swatch can be inserted
+				translate([-fpanelz / 2, 20, 14]){
+					rotate([30, 0, 0])
+					rotate([0, 90, 0]){
+						linear_extrude(fpanelz){
+							circle(10, $fn=6);
 						}
 					}
-					drawtext(filtype);
 				}
+				drawtext(filtype);
 			}
 		}
 		multicolor("white"){

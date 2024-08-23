@@ -44,7 +44,7 @@ rwallr = 8; // same thickness as honeycomb
 fpanelx = (mainx - towerw) / 2;
 clampr = bard / 2 + 0.2;
 fpanely = mainy;
-fpanelz = 8;
+fpanelz = towerw;
 
 height = 20;
 wall = 1.8;
