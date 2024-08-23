@@ -37,7 +37,7 @@ module drawtext(filtype){
 	translate([1, 14, 90]){
 		coretext(filtype);
 	}
-	translate([-1, 14, 55]){
+	translate([-1, 14, 58]){
 		rotate([0, 180, 0]){
 			coretext(filtype);
 		}
