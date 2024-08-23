@@ -42,15 +42,11 @@ swatchz = 2;
 rwallr = 8; // same thickness as honeycomb
 
 fpanelx = (mainx - towerw) / 2;
-clampr = bard / 2 + 0.2;
 fpanely = mainy;
-fpanelz = towerw;
+fpanelz = 8;
 
 height = 20;
 wall = 1.8;
-
-// in the cement model, the back circular hole is 22mm in radius
-backholer = 44 / 2;
 
 mtotx = mainx + rwallr * 2;
 mtoty = mainy + rwallr;
