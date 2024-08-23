@@ -51,3 +51,23 @@ wall = 1.8;
 mtotx = mainx + rwallr * 2;
 mtoty = mainy + rwallr;
 mtotz = mainz + rwallr * 2 - 6;
+
+
+// interaction between fpanels and extremal side of bowls
+// can be magnets and/or rotating, sliding slug
+// cutaway for 5x3mm circular magnet
+magnetr = 5 / 2;
+magneth = 3;
+module maghole(y){
+	translate([0, y, 0]){
+		rotate([0, 90, 0]){
+			cylinder(magneth, magnetr, magnetr);
+		}
+	}
+}
+
+// it needs to cross the full wall of the bowl, and leave room
+// on the placard to easily manipulate it.
+boltlength = rwallr * 4;
+boltlatchw = 2;
+sluglength = rwallr * 3;

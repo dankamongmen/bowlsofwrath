@@ -30,10 +30,10 @@ module coretext(ftype){
 }
 
 module drawtext(filtype){
-	translate([fpanelx - 35, 14, fpanelz - lex]){
+	translate([fpanelx - 39, 10, fpanelz - lex]){
 		coretext(filtype);
 	}
-	translate([35, 14, lex]){
+	translate([35, 10, lex]){
 		rotate([0, 180, 0]){
 			coretext(filtype);
 		}
@@ -49,11 +49,6 @@ module sideplug(y){
 	}
 }
 
-// it needs to cross the full wall of the bowl, and leave room
-// on the placard to easily manipulate it.
-boltlength = rwallr * 4;
-boltlatchw = 2;
-sluglength = rwallr * 3;
 module sidehole(y){
 	translate([0, y, 0]){
 		rotate([0, 90, 0]){
@@ -101,6 +96,12 @@ module fpanel(filtype){
 				sidehole(fpanely - 7.4);
 			}
 			drawtext(filtype);
+			// now as many magnet holes as will fit
+			translate([fpanelx - magneth, 0, fpanelz / 2]){
+				for(i = [rwallr + 1 + magnetr:magnetr * 4:fpanely - 20]){
+					maghole(i);
+				}
+			}
 		}
 		translate([0, 0, fpanelz / 2]){
 			sideplug(fpanely - 7.4);
