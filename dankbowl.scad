@@ -1,10 +1,10 @@
 include <dankbowl-constants.scad>
 include <fpanel.scad>
 
-$fa = 6;
-//$fs = 1.75 / 2;
-$fn = 16;
-
+// 0.0.996 -- fermilab style sides on towers
+//            switch to bar magnets
+// 0.0.995 -- added cutaways for magnets
+//            boxed off back of towers
 // 0.0.992 -- reduced height by 4mm
 //            fixed up some minor manifold faults
 //            honeycomb bottom is mandatory
@@ -134,110 +134,135 @@ module bottom(){
 	}
 }
 
+module magholepair(){
+	translate([0, 0, (fpanelz - magnetw) / 2]){
+		magholes();
+	}
+	translate([0, 0, mtotz - magnetw - (fpanelz - magnetw) / 2]){
+		magholes();
+	}
+}
+
 module tower(){
-		// tower in front/back centers for bolts
-		// we have about 20mm of gap between the two boxes
-		difference(){
+	// tower in front/back centers for bolts
+	// we have about 20mm of gap between the two boxes
+	difference(){
+		union(){
 			rotate([0, 90, 0]){
 				// triangle support for tower
 				translate([0, 0, wallr]){
 					linear_extrude(towerw - wallr * 2){
 							polygon([
 								[towerd / 2, 0],
-								[towerd / 2, mainy - 2],
+								[towerd / 2, mainy - wallr],
 								[towerd, 0]
 							]);
 					}
 				}
-				roundedcube([towerd - wallz * 3 + 1, mainy - 2, towerw], false, wallr, "y");
+				roundedcube([towerd - wallz * 3 + 1, mainy, towerw], false, wallr, "xmin");
 			}
-			// top hole
-			translate([towerw / 2, mainy - 8 - boltd / 2, -2.4]){
-				screw_hole("M5", length=towerw, thread=true, orient=LEFT);
+			// restore full bottom
+			translate([-rwallr, 0, -towerd / 2 - 1]){
+				difference(){
+					cube([towerw + rwallr * 2, 9, towerd / 2 + wallr]);
+					translate([0, rwallr, 0]){
+						linear_extrude(towerd / 2 + wallr){
+							circle(rwallr);
+							translate([towerw + rwallr * 2, 0, 0]){
+								circle(rwallr);
+							}
+						}
+					}
+				}
 			}
-			// bottom hole
-			translate([towerw / 2, 4.5, -2.4]){
-				screw_hole("M5", length=towerw, thread=true, orient=LEFT);
-			}		
+		}
+		// top hole
+		translate([towerw / 2, mainy - 5, 0]){
+			screw_hole("M5", length=towerw + rwallr * 2, thread=true, orient=LEFT);
+		}
+		// bottom hole
+		translate([towerw / 2, 5, 0]){
+			screw_hole("M5", length=towerw + rwallr * 2, thread=true, orient=LEFT);
+		}
+		translate([0, 0, -fpanelz / 2]){
+			magholepair();
+			translate([towerw - magnetd, 0, 0]){
+				magholepair();
+			}
 		}
 	}
+}
 
-	// rotate the entirety to sit on the plate naturally
-	rotate([90, 0, 0]){
-		difference(){
+// rotate the entirety to sit on the plate naturally
+rotate([90, 0, 0]){
+	difference(){
 		union(){
-	
-		difference(){
-			// the primary bowl
-			roundedcube([mtotx, mtoty, mtotz], false, rwallr, "y");
-			//cube([mtotx, mtoty, mtotz]);
-			// remove the core, leaving filleted inside
-			translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
-				roundedcube([mainx, mainy, mtotz + rwallr * 2], false, wallr, "ymin");
-			}
-			// remove the bottom
-			translate([rwallr * 2 - 1, 0, towerd + 10]){
-				cube([mtotx - rwallr * 4 + 2, rwallr * 10, mtotz - towerd * 2 - 16]);
-			}
-			// remove the sides to insert the honeycomb
-			translate([0, rwallr + wallr, rwallr + wallr + 5]){
-				cube([mtotx, mainy - rwallr - 2, mainz - wallr - 19]);
-			}
-			// passageways for bolts (front then back)
-			translate([0, mtoty - rwallr - boltd / 2, mtotz - towerd / 2 + boltd / 2 + 1]){
-				rotate([0, 90, 0]){
-					cylinder(mtotx, boltd / 2, boltd / 2);
-					translate([0, -61, 0]){
-						screw_hole("M5", length=mtotx*3, thread=false);
+			difference(){
+				// the primary bowl
+				roundedcube([mtotx, mtoty, mtotz], false, rwallr, "y");
+				//cube([mtotx, mtoty, mtotz]);
+				// remove the core, leaving filleted inside
+				translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
+					roundedcube([mainx, mainy, mtotz + rwallr * 2], false, wallr, "ymin");
+				}
+				// remove the bottom
+				translate([rwallr * 2 - 1, 0, towerd + 10]){
+					cube([mtotx - rwallr * 4 + 2, rwallr * 10, mtotz - towerd * 2 - 16]);
+				}
+				// remove the sides to insert the honeycomb
+				translate([0, rwallr + wallr, rwallr + wallr + 5]){
+					cube([mtotx, mainy - rwallr - 2, mainz - wallr - 19]);
+				}
+				// passageways for bolts (front then back)
+				translate([0, rwallr + 5, mtotz - fpanelz / 2]){
+					boltpath();
+				}
+				translate([0, rwallr + 5, fpanelz / 2]){//boltd / 2 + (fpanelz - boltd) / 2]){
+					boltpath();
+				}
+				translate([rwallr - magnetd + 0.1, rwallr, 0]){
+					magholepair();
+				}
+				translate([mtotx - rwallr - 0.1, rwallr, 0]){
+					magholepair();
+				}
+				translate([mtotx - 20, 7, mtotz - 10]){
+					rotate([90, 0, 180]){
+						linear_extrude(2){
+							text("v0.0.996 2024-08-24", size=4);
+						}
 					}
 				}
 			}
-			translate([0, mtoty - rwallr - boltd / 2, towerd / 2 - boltd / 2 - 1]){
-				rotate([0, 90, 0]){
-					cylinder(mtotx, boltd / 2, boltd / 2);
-					translate([0, -61, 0]){
-						screw_hole("M5", length=mtotx*3, thread=false);
-					}
-				}
-			}
-			translate([mtotx - 20, 7, mtotz - 10]){
-				rotate([90, 0, 180]){
-					linear_extrude(2){
-						text("v0.0.992 2024-08-20", size=4);
-					}
-				}
-			}
-		}
 
-		multicolor("green"){
-			// left side
-			translate([0, -1, 5]){
-				sidecomb();
+			multicolor("green"){
+				// left side
+				translate([0, -1, 5]){
+					sidecomb();
+				}
 			}
-		}
-		
-		multicolor("pink"){
-			// right side
-			translate([totx - 8, 7, wallz]){
-				translate([8, mtoty, 0]){
-					rotate([180, 180, 0]){
-						sidecomb();
+			
+			multicolor("pink"){
+				// right side
+				translate([totx - 8, 7, wallz]){
+					translate([8, mtoty, 0]){
+						rotate([180, 180, 0]){
+							sidecomb();
+						}
 					}
 				}
 			}
+			
+			multicolor("white"){
+				bottom();
+			}
 		}
-		
-		multicolor("white"){
-			bottom();
+		// we cut out the core *again* to smooth out the bottom+sides
+		// FIXME not yet working for sides, though
+		translate([(mtotx - mainx) / 2, rwallr, -rwallr]){
+			roundedcube([mainx, mainy, mtotz + rwallr * 2], false, wallr, "ymin");
 		}
-	}
-	
-	// we cut out the core *again* to smooth out the bottom+sides
-	// FIXME not yet working for sides, though
-	translate([lex, rwallr, -rwallr]){
-		roundedcube([mtotx - lex * 2, mainy, mtotz + rwallr * 2], false, wallr, "ymin");
-		}
-	}	
+	}	// end difference
 
 	multicolor("blue"){
 		// tower in the front
@@ -279,10 +304,10 @@ module tower(){
 				}
 			}
 		}
-		rotate([0, 0, 0]){
-			translate([rwallr, rwallr, 7]){
+		translate([fpanelx + rwallr, rwallr, fpanelz]){
+			rotate([0, 180, 0]){
 				fpanel("erp");
 			}
 		}*/
 	}
-}
+} // end rotation

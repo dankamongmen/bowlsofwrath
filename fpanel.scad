@@ -10,14 +10,41 @@ include <dankbowl-constants.scad>
 
 // viewport for hydrogmeter on front face. we use a kite
 // to eliminate any need for supports.
+module vptriangle(){
+	polygon([[0, 0], [6, 0], [0, 6]]);
+}
+
 vx = 60;
 module viewport(){
 	// a rectangular viewport would be 60x36
 	vy = 36;
 	// from 20-70x, 20-50y
 	translate([(fpanelx - vx) / 2, 17, 0]){
+		/*
 		linear_extrude(fpanelz){
 			polygon([[0, vy / 2], [vx / 2, vy], [vx, vy / 2], [vx / 2, 0]]);
+		}
+		*/
+		difference(){
+			cube([60, 36, fpanelz]);
+			linear_extrude(fpanelz){
+				vptriangle();
+				translate([60, 0, 0]){
+					rotate([0, 0, 90]){
+						vptriangle();
+					}
+				}
+				translate([0, 36, 0]){
+					rotate([0, 0, 270]){
+						vptriangle();
+					}
+					translate([60, 0, 0]){
+						rotate([0, 0, 180]){
+							vptriangle();
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -40,11 +67,13 @@ module drawtext(filtype){
 	}
 }
 
+// keep these short so that (a) they can be shoved in and (b)
+// they're less likely to snap off.
 module sideplug(y){
-	translate([-towerw / 2, fpanely - y, 0]){
+	translate([-5, fpanely - y, 0]){
 		rotate([0, 90, 0]){
 			r = 5 / 2 - .2; // fit in m5 hole with some allowance
-			cylinder(towerw / 2, r, r);
+			cylinder(5, r, r);
 		}
 	}
 }
@@ -68,7 +97,7 @@ module sidehole(y){
 }
 
 module fpanel(filtype){
-	multicolor("black"){
+	//multicolor("black"){
 		difference(){
 			// main panel, arise
 			linear_extrude(fpanelz){
@@ -79,36 +108,50 @@ module fpanel(filtype){
 					translate([fpanelx - rwallr, 0, 0]){
 						circle(rwallr);
 					}
+					translate([rwallr, 0, 0]){
+						circle(rwallr);
+					}
 					square([fpanelx, fpanely - rwallr], false);
 				}
-				square([fpanelx - rwallr, rwallr, 0], false);
+				translate([rwallr, 0, 0]){
+					square([fpanelx - 2 * rwallr, rwallr, 0], false);
+				}
 			}
 			viewport();
 			// through-hexagon into which a swatch can be inserted
-			translate([14, fpanely - 20, 0]){
-				rotate([0, 0, 30]){
+			// FIXME ought just be a 1x1 honeycomb wall!
+			translate([14.3, fpanely - 16, 0]){
+				rotate([0, 0, -15]){
 					linear_extrude(fpanelz){
-						circle(10, $fn=6);
+						circle(sqrt(72), $fn=6);
 					}
 				}
 			}
+			/*
 			translate([fpanelx - boltlength, 0, fpanelz / 2]){
-				sidehole(fpanely - 7.4);
+				sidehole(fpanely - 5);
 			}
-			drawtext(filtype);
+			*/
+			//drawtext(filtype);
 			// now as many magnet holes as will fit
-			translate([fpanelx - magneth, 0, fpanelz / 2]){
-				for(i = [rwallr + 1 + magnetr:magnetr * 4:fpanely - 20]){
-					maghole(i);
+			translate([0, 0, (fpanelz - magnetw) / 2]){
+				translate([fpanelx - magnetd, 0, 0]){
+					magholes();
 				}
+				magholes();
+			}
+			translate([0, 5, fpanelz / 2]){
+				boltpath();
 			}
 		}
+		/*
 		translate([0, 0, fpanelz / 2]){
-			sideplug(fpanely - 7.4);
+			sideplug(fpanely - 5);
 			sideplug(5);
 		}
-	}
-	multicolor("white"){
+		*/
+	//}
+	/*multicolor("white"){
 		drawtext(filtype);
-	}
+	}*/
 }
