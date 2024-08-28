@@ -174,7 +174,7 @@ module tower(){
 							]);
 					}
 				}
-				roundedcube([towerd - wallz * 3 + 1, mainy, towerw], false, wallr, "xmin");
+				roundedcube([towerd - wallr * 3 + 1, mainy, towerw], false, wallr, "xmin");
 			}
 			// restore full bottom
 			translate([-rwallr, 0, -towerd / 2 - 1]){
@@ -253,7 +253,7 @@ rotate([90, 0, 0]){
 			
 			multicolor("pink"){
 				// right side
-				translate([totx, mtoty + rwallr * 2, 0]){
+				translate([mtotx, mtoty + rwallr * 2, 0]){
 					rotate([180, 180, 0]){
 						sidecomb();
 					}

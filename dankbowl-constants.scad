@@ -23,25 +23,18 @@ module multicolor(color) {
 }
 
 boltd = 5;
+// these all ought be replaced with rwallr FIXME
 wallr = 5;
 wallx = 8;
 wally = wallr;
-wallz = wallr;
 mainx = 204;
 mainy = 76;
 mainz = 222;
-totx = mainx + wallx * 2;
-totz = mainz + wallz * 2;
-toty = mainy + wally;
 
 towerd = 20;
 towerw = 18;
 
 bard = 3;
-
-swatchx = 20;
-swatchy = 20;
-swatchz = 2;
 
 rwallr = 8; // same thickness as honeycomb
 
