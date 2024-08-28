@@ -14,6 +14,16 @@ module vptriangle(){
 	polygon([[0, 0], [6, 0], [0, 6]]);
 }
 
+module inroll(){
+	roll = 5;
+	difference(){
+		square(roll);
+		translate([roll, roll, 0]){
+			circle(5);
+		}
+	}
+}
+
 vx = 60;
 module viewport(){
 	// a rectangular viewport would be 60x36
@@ -28,7 +38,7 @@ module viewport(){
 		difference(){
 			cube([60, 36, fpanelz]);
 			linear_extrude(fpanelz){
-				vptriangle();
+				inroll();
 				translate([60, 0, 0]){
 					rotate([0, 0, 90]){
 						vptriangle();
@@ -40,7 +50,7 @@ module viewport(){
 					}
 					translate([60, 0, 0]){
 						rotate([0, 0, 180]){
-							vptriangle();
+							inroll();
 						}
 					}
 				}
