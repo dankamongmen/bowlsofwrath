@@ -29,7 +29,7 @@ wallx = 8;
 wally = wallr;
 mainx = 204;
 mainy = 76;
-mainz = 222;
+mainz = 216;
 
 towerd = 20;
 towerw = 18;
@@ -47,7 +47,7 @@ wall = 1.8;
 
 mtotx = mainx + rwallr * 2;
 mtoty = mainy + rwallr;
-mtotz = mainz + rwallr * 2 - 6;
+mtotz = mainz + rwallr * 2;
 
 
 // interaction between fpanels and extremal side of bowls:

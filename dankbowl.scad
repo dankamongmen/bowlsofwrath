@@ -99,7 +99,7 @@ module sidecomb(){
 module bottom(){
 	intersection(){
 		// want to line up with the middle rows on the sides
-		translate([mainx / 2 + rwallr, 0, mainz / 2 + rwallr - 3]){
+		translate([mainx / 2 + rwallr, 0, mainz / 2 + rwallr]){
 			rotate([0, 90, 0]){
 				rotate([270, 0, 0]){
 					hexwall(7, 9);
