@@ -1,6 +1,6 @@
-include <dankbowl-constants.scad>
 include <fpanel.scad>
 
+// 0.1.0 -- no functional changes
 // 0.0.997 -- perfect rounding on interior
 // 0.0.996 -- fermilab style sides on towers
 //            switch to bar magnets
@@ -231,7 +231,7 @@ rotate([90, 0, 0]){
 				translate([mtotx - 20, 7, mtotz - 10]){
 					rotate([90, 0, 180]){
 						linear_extrude(2){
-							text("v0.0.997 2024-08-26", size=4);
+							text("v0.1.0 2024-08-28", size=4);
 						}
 					}
 				}
