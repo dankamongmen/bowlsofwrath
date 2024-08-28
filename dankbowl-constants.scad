@@ -43,7 +43,6 @@ mtotx = mainx + rwallr * 2;
 mtoty = mainy + rwallr;
 mtotz = mainz + rwallr * 2;
 
-
 // interaction between fpanels and extremal side of bowls:
 // can be magnets and/or rotating, sliding slug.
 // cutaway for 20x5x2mm bar magnet--triangle on top to avoid need for supports
@@ -64,11 +63,9 @@ module maghole(y){
 }
 
 module magholes(){
-	//translate([fpanelx - magnetd, 0, fpanelz / 2]){
-		for(i = [rwallr + 5:magneth * 1.5:fpanely - rwallr]){
-			maghole(i);
-		}
-	//}
+	for(i = [rwallr + 5:magneth * 1.5:fpanely - rwallr]){
+		maghole(i);
+	}
 }
 
 // it needs to cross the full wall of the bowl, and leave room
