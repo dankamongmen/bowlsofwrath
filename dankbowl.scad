@@ -107,18 +107,14 @@ module bottom(){
 					for(i = [0:1:4]){
 						translate([-88, 40.8 * i - 81.5, 0]){
 							rotate([0, 0, 90]){
-								linear_extrude(lex){
-									circle(14, $fn = 6);
-								}
+								cylinder(lex, 14, 14, $fn = 6);
 							}
 						}
 					}
 					for(i = [0:1:3]){
 						translate([88, 40.8 * i - 61, 0]){
 							rotate([0, 0, 90]){
-								linear_extrude(lex){
-									circle(14, $fn = 6);
-								}
+								cylinder(lex, 14, 14, $fn = 6);
 							}
 						}
 					}
@@ -126,16 +122,12 @@ module bottom(){
 					for(i = [0:1:7]){
 						translate([23.5 * i - 76, -mainx / 2, 0]){
 							rotate([0, 0, 90]){
-								linear_extrude(lex){
-									circle(14, $fn = 6);
-								}
+								cylinder(lex, 14, 14, $fn = 6);
 							}
 						}
 						translate([23.5 * i - 76, mainx / 2, 0]){
 							rotate([0, 0, 90]){
-								linear_extrude(lex){
-									circle(14, $fn = 6);
-								}
+								cylinder(lex, 14, 14, $fn = 6);
 							}
 						}
 					}
@@ -165,23 +157,23 @@ module tower(){
 		union(){
 			rotate([0, 90, 0]){
 				// triangle support for tower
-				translate([0, 0, wallr]){
-					linear_extrude(towerw - wallr * 2){
+				translate([0, 0, rwallr / 2]){
+					linear_extrude(towerw - rwallr){
 							polygon([
 								[towerd / 2, 0],
-								[towerd / 2, mainy - wallr],
+								[towerd / 2, mainy - rwallr / 2],
 								[towerd, 0]
 							]);
 					}
 				}
-				roundedcube([towerd - wallr * 3 + 1, mainy, towerw], false, wallr, "xmin");
+				roundedcube([towerd - rwallr * 2, mainy, towerw], false, rwallr / 2, "xmin");
 			}
 			// restore full bottom
-			translate([-rwallr, 0, -towerd / 2 - 1]){
+			translate([-rwallr, 0, (-towerd - rwallr) / 2]){
 				difference(){
-					cube([towerw + rwallr * 2, 9, towerd / 2 + wallr]);
+					cube([towerw + rwallr * 2, 9, towerd / 2 + rwallr]);
 					translate([0, rwallr, 0]){
-						linear_extrude(towerd / 2 + wallr){
+						linear_extrude(towerd / 2 + rwallr){
 							circle(rwallr);
 							translate([towerw + rwallr * 2, 0, 0]){
 								circle(rwallr);
@@ -285,11 +277,11 @@ rotate([90, 0, 0]){
 
 	multicolor("blue"){
 		// tower in the front
-		translate([mtotx / 2 - towerw / 2, 8, mtotz - wallr + 1]){
+		translate([mtotx / 2 - towerw / 2, 8, mtotz - rwallr / 2]){
 			tower();
 		}
 		// tower in the back (aligned to x axis)
-		translate([mtotx / 2 - towerw / 2, 8, wallr - 1]){
+		translate([mtotx / 2 - towerw / 2, 8, rwallr / 2]){
 			mirror([0, 0, 1]){
 				tower();
 			}

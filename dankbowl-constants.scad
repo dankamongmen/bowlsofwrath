@@ -23,10 +23,6 @@ module multicolor(color) {
 }
 
 boltd = 5;
-// these all ought be replaced with rwallr FIXME
-wallr = 5;
-wallx = 8;
-wally = wallr;
 mainx = 204;
 mainy = 76;
 mainz = 216;
