@@ -34,7 +34,7 @@ module bfill(x){
 //hexh = 5.77349; // 10**2 + x**2 = 11.547**2
 hexh = 7.5;
 hexy = 26.5;
-lex = 8.1002;
+lex = 8;
 htotx = height + 2 * wall - 0.05; // FIXME eliminate
 
 // the sidecomb ought be mtoty - rwallr * 2 tall,
