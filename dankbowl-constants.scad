@@ -30,8 +30,6 @@ mainz = 216;
 towerd = 20;
 towerw = 18;
 
-bard = 3;
-
 rwallr = 8; // same thickness as honeycomb
 
 fpanelx = (mainx - towerw) / 2;
