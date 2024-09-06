@@ -1,5 +1,6 @@
 include <fpanel.scad>
 
+// 0.1.1 -- reconnected two parts of towers
 // 0.1.0 -- no functional changes
 // 0.0.997 -- perfect rounding on interior
 // 0.0.996 -- fermilab style sides on towers
@@ -165,6 +166,9 @@ module tower(){
 								[towerd, 0]
 							]);
 					}
+					translate([rwallr, 0, 0]){
+						cube([2, mainy - rwallr / 2, towerw - rwallr]);
+					}
 				}
 				roundedcube([towerd - rwallr * 2, mainy, towerw], false, rwallr / 2, "xmin");
 			}
@@ -231,7 +235,7 @@ rotate([90, 0, 0]){
 				translate([mtotx - 20, 7, mtotz - 10]){
 					rotate([90, 0, 180]){
 						linear_extrude(2){
-							text("v0.1.0 2024-08-28", size=4);
+							text("v0.1.1 2024-08-31", size=5);
 						}
 					}
 				}

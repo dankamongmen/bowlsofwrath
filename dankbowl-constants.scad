@@ -32,8 +32,8 @@ towerw = 18;
 
 rwallr = 8; // same thickness as honeycomb
 
-fpanelx = (mainx - towerw) / 2;
-fpanely = mainy;
+fpanelx = (mainx - towerw) / 2 - 1; // give it a mm of squish room
+fpanely = mainy - 1; // same deal, one mm of squish
 fpanelz = 8;
 
 height = 20;
@@ -49,22 +49,27 @@ mtotz = mainz + rwallr * 2;
 magneth = 20;
 magnetw = 5;
 magnetd = 3; // give away 1mm
-module maghole(y){
+// support is a boolean specifying whether there ought be a triangle
+// at the top to eliminate the need for supports; only useful when
+// the holes are to be oriented vertically
+module maghole(y, support){
 	translate([0, y, 0]){
 		cube([magnetd, magneth, magnetw]);
-		translate([0, 0, magnetw]){
-			rotate([0, 90, 0]){
-				linear_extrude(magnetd){
-					polygon([[0, magneth], [magnetw / 2, magneth + magnetw / 2], [magnetw, magneth]]);
+		if(support){
+			translate([0, 0, magnetw]){
+				rotate([0, 90, 0]){
+					linear_extrude(magnetd){
+						polygon([[0, magneth], [magnetw / 2, magneth + magnetw / 2], [magnetw, magneth]]);
+					}
 				}
 			}
 		}
 	}
 }
 
-module magholes(){
+module magholes(support){
 	for(i = [rwallr + 5:magneth * 1.5:fpanely - rwallr]){
-		maghole(i);
+		maghole(i, support);
 	}
 }
 

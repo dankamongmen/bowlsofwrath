@@ -4,4 +4,4 @@ include <fpanel.scad>
 current_color="black";
 //current_color="white";
 
-fpanel("tpu");
+fpanel("polyc");

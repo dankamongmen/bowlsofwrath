@@ -19,7 +19,7 @@ module inroll(){
 	difference(){
 		square(roll);
 		translate([roll, roll, 0]){
-			circle(5);
+			circle(roll);
 		}
 	}
 }
@@ -67,10 +67,10 @@ module coretext(ftype){
 }
 
 module drawtext(filtype){
-	translate([fpanelx - 39, 10, fpanelz - lex]){
+	translate([(fpanelx - vx) / 2, 5, fpanelz - lex]){
 		coretext(filtype);
 	}
-	translate([35, 10, lex]){
+	translate([vx + 16, 5, lex]){
 		rotate([0, 180, 0]){
 			coretext(filtype);
 		}
@@ -107,14 +107,11 @@ module sidehole(y){
 }
 
 module fpanel(filtype){
-	//multicolor("black"){
+	multicolor("black"){
 		difference(){
 			// main panel, arise
 			linear_extrude(fpanelz){
 				translate([0, rwallr, 0]){
-					/*translate([rwallr, 0, 0]){
-						circle(rwallr);
-					}*/
 					translate([fpanelx - rwallr, 0, 0]){
 						circle(rwallr);
 					}
@@ -130,38 +127,27 @@ module fpanel(filtype){
 			viewport();
 			// through-hexagon into which a swatch can be inserted
 			// FIXME ought just be a 1x1 honeycomb wall!
-			translate([14.3, fpanely - 16, 0]){
+			translate([13.8, fpanely - 16, 0]){
 				rotate([0, 0, -15]){
 					linear_extrude(fpanelz){
 						circle(sqrt(72), $fn=6);
 					}
 				}
 			}
-			/*
-			translate([fpanelx - boltlength, 0, fpanelz / 2]){
-				sidehole(fpanely - 5);
-			}
-			*/
-			//drawtext(filtype);
+			drawtext(filtype);
 			// now as many magnet holes as will fit
 			translate([0, 0, (fpanelz - magnetw) / 2]){
 				translate([fpanelx - magnetd, 0, 0]){
-					magholes();
+					magholes(false);
 				}
-				magholes();
+				magholes(false);
 			}
 			translate([0, 5, fpanelz / 2]){
 				boltpath();
 			}
 		}
-		/*
-		translate([0, 0, fpanelz / 2]){
-			sideplug(fpanely - 5);
-			sideplug(5);
-		}
-		*/
-	//}
-	/*multicolor("white"){
+	}
+	multicolor("white"){
 		drawtext(filtype);
-	}*/
+	}
 }
